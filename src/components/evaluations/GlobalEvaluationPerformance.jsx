@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { StarIcon, ChartBarIcon, UserGroupIcon, ClockIcon } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import { dashboardService } from '../../services/dashboardService';
@@ -8,15 +8,7 @@ const GlobalEvaluationPerformance = ({ campaigns = [] }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (campaigns.length > 0) {
-      calculateStatisticsFromCampaigns();
-    } else {
-      fetchGlobalStatistics();
-    }
-  }, [campaigns]);
-
-  const calculateStatisticsFromCampaigns = () => {
+  const calculateStatisticsFromCampaigns = useCallback(() => {
     try {
       setLoading(true);
 
@@ -57,7 +49,7 @@ const GlobalEvaluationPerformance = ({ campaigns = [] }) => {
       setError('Échec du calcul des statistiques');
       setLoading(false);
     }
-  };
+  }, [campaigns]);
 
   const calculatePerformanceLevel = (responseRate, avgRating) => {
     if (!responseRate || !avgRating) return 'No Data';
@@ -69,7 +61,7 @@ const GlobalEvaluationPerformance = ({ campaigns = [] }) => {
     return 'Poor';
   };
 
-  const fetchGlobalStatistics = async () => {
+  const fetchGlobalStatistics = useCallback(async () => {
     try {
       setLoading(true);
       // Use the same endpoint as dashboard for consistency
@@ -123,7 +115,15 @@ const GlobalEvaluationPerformance = ({ campaigns = [] }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [campaigns, calculateStatisticsFromCampaigns]);
+
+  useEffect(() => {
+    if (campaigns.length > 0) {
+      calculateStatisticsFromCampaigns();
+    } else {
+      fetchGlobalStatistics();
+    }
+  }, [campaigns, calculateStatisticsFromCampaigns, fetchGlobalStatistics]);
 
   const calculatePerformance = (responseRate, avgRating) => {
     if (responseRate >= 80 && avgRating >= 4) {

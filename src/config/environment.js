@@ -2,10 +2,10 @@
 // Reads all sensitive or environment-specific values from .env
 
 const getEnvironmentConfig = () => {
-  // Determine environment
-  const isDevelopment = process.env.NODE_ENV === 'development';
-  const isProduction = process.env.NODE_ENV === 'production';
-  const isTest = process.env.NODE_ENV === 'test';
+  // Determine environment - commented unused variables
+  // const isDevelopment = process.env.NODE_ENV === 'development';
+  // const isProduction = process.env.NODE_ENV === 'production';
+  // const isTest = process.env.NODE_ENV === 'test';
 
   // Base configuration
   const baseConfig = {

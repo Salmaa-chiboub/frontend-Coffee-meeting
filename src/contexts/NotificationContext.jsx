@@ -262,7 +262,7 @@ export const NotificationProvider = ({ children }) => {
     } catch (error) {
       return false;
     }
-  }, [fetchNotifications, canUseNotifications]);
+  }, [fetchNotifications, fetchUnreadCount, canUseNotifications]);
 
   // Delete notification
   const deleteNotification = useCallback(async (notificationId) => {

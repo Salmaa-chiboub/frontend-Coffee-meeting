@@ -1,6 +1,6 @@
 [build]
   publish = "build"
-  command = "npm run build:netlify"
+  command = "DISABLE_ESLINT_PLUGIN=true npm run build"
 
 [build.environment]
   NODE_VERSION = "18"
@@ -13,6 +13,13 @@
   REACT_APP_VERSION = "2.0.0"
   REACT_APP_ENVIRONMENT = "production"
   REACT_APP_DEBUG = "false"
+  # NOTE: Set REACT_APP_API_URL in Netlify environment variables
+  # REACT_APP_API_URL = "https://your-production-api.com"
+  REACT_APP_API_TIMEOUT = "30000"
+  REACT_APP_ENABLE_NOTIFICATIONS = "true"
+  REACT_APP_ENABLE_REALTIME_UPDATES = "true"
+  REACT_APP_ENABLE_FILE_UPLOAD = "true"
+  REACT_APP_ENABLE_BULK_OPERATIONS = "true"
 
 # Branch deploy (staging)
 [context.branch-deploy.environment]

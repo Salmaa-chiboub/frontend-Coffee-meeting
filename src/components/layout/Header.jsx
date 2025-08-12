@@ -1,32 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import {
-  UserCircleIcon,
   UserIcon,
   ArrowRightOnRectangleIcon
 } from '@heroicons/react/24/outline';
-import SearchBar from '../ui/SearchBar';
-import SearchResults from '../ui/SearchResults';
 import SearchButton from '../ui/SearchButton';
 import NotificationButton from '../ui/NotificationButton';
-import { globalSearchService } from '../../services/searchService';
 
 const Header = ({ isHovered = false }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation(); // unused after search removal
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState({ campaigns: [], employees: [], total: 0 });
-  const [isSearching, setIsSearching] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
 
   const dropdownRef = useRef(null);
   const searchRef = useRef(null);
-
-  // Check if user is on profile page
-  const isOnProfilePage = location.pathname.startsWith('/profile');
 
 
 
@@ -78,55 +68,7 @@ const Header = ({ isHovered = false }) => {
     setIsDropdownOpen(false);
   };
 
-  // Handle search functionality
-  const handleSearchChange = async (value) => {
-    setSearchTerm(value);
-
-    if (!value || value.trim().length < 2) {
-      setSearchResults({ campaigns: [], employees: [], total: 0 });
-      setShowSearchResults(false);
-      return;
-    }
-
-    setIsSearching(true);
-    setShowSearchResults(true);
-
-    try {
-      const results = await globalSearchService.globalSearch(value.trim(), {
-        limit: 8,
-        includeCampaigns: true,
-        includeEmployees: true
-      });
-
-      setSearchResults(results);
-    } catch (error) {
-      console.error('Search error:', error);
-      setSearchResults({ campaigns: [], employees: [], total: 0, error: 'Search failed' });
-    } finally {
-      setIsSearching(false);
-    }
-  };
-
-  const handleSearchSubmit = (value) => {
-    if (value && value.trim()) {
-      // If there are results, navigate to the first one
-      if (searchResults.campaigns.length > 0) {
-        navigate(`/app/campaigns/${searchResults.campaigns[0].id}/workflow`);
-      } else if (searchResults.employees.length > 0) {
-        console.log('Navigate to employee:', searchResults.employees[0]);
-      }
-      setShowSearchResults(false);
-    }
-  };
-
-  const handleSearchResultClick = (result) => {
-    setShowSearchResults(false);
-    setSearchTerm('');
-  };
-
-  const handleCloseSearch = () => {
-    setShowSearchResults(false);
-  };
+  // Search functionality removed - not used in current implementation
 
   return (
     <header

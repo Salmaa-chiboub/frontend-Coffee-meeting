@@ -85,7 +85,7 @@ const SimpleLineChart = React.memo(({ data, title, className = '' }) => {
     );
   }
 
-  const { maxValue, minValue, range, items } = chartData;
+  const { maxValue, minValue, range } = chartData;
 
   return (
     <div className={`bg-white/90 backdrop-blur-sm rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 p-8 border border-warmGray-100/50 ${className}`}>
@@ -345,7 +345,7 @@ const EvaluationTrendsChart = React.memo(({ data, title, className = '' }) => {
   const yScale = createYAxisScale(maxValue, minValue);
 
   // Dynamic chart dimensions - use full card space
-  const titleHeight = 30; // Space for title
+  // const titleHeight = 30; // Space for title - unused
   const yAxisWidth = 25; // Space for Y-axis labels
   const xAxisHeight = 25; // Space for X-axis labels
   const chartPadding = 8; // Internal padding around the chart area
@@ -353,8 +353,8 @@ const EvaluationTrendsChart = React.memo(({ data, title, className = '' }) => {
   const topPadding = 15; // Extra padding on the top to prevent cutoff
 
   // Calculate available space (will be set via CSS to fill card)
-  const availableWidth = '100%';
-  const availableHeight = `calc(100% - ${titleHeight}px)`;
+  // const availableWidth = '100%';
+  // const availableHeight = `calc(100% - ${titleHeight}px)`;
 
   // For SVG calculations, we'll use a base size that scales
   const baseWidth = 320; // Increased to accommodate right padding

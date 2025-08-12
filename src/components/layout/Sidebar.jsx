@@ -5,11 +5,8 @@ import {
   ChartBarIcon,
   CalendarDaysIcon,
   UserGroupIcon,
-  ChartPieIcon,
   UserIcon,
   ArrowRightOnRectangleIcon,
-  PlusIcon,
-  ViewColumnsIcon,
   ClockIcon,
   BellIcon
 } from '@heroicons/react/24/outline';
@@ -17,10 +14,10 @@ import {
 const Sidebar = ({ onHoverChange }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
 
   // State management - Default closed, opens on hover
-  const [isExpanded, setIsExpanded] = useState(false);
+  // const [isExpanded, setIsExpanded] = useState(false); // unused
   const [isHovered, setIsHovered] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
