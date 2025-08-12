@@ -23,6 +23,10 @@ const getEnvironmentConfig = () => {
       retryAttempts: parseInt(process.env.REACT_APP_API_RETRY_ATTEMPTS, 10) || 3,
       retryDelay: parseInt(process.env.REACT_APP_API_RETRY_DELAY, 10) || 1000,
     },
+
+    frontend: {
+      baseUrl: process.env.REACT_APP_FRONTEND_URL || 'http://localhost:3000',
+    },
     
     auth: {
       tokenRefreshThreshold: parseInt(process.env.REACT_APP_TOKEN_REFRESH_THRESHOLD, 10) || 300,
@@ -54,6 +58,7 @@ const config = getEnvironmentConfig();
 
 // Export individual components for convenience
 export const API_BASE_URL = config.api.baseUrl;
+export const FRONTEND_BASE_URL = config.frontend.baseUrl;
 export const APP_NAME = config.app.name;
 export const APP_VERSION = config.app.version;
 export const DEBUG_MODE = config.app.debug;
