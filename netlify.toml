@@ -1,0 +1,40 @@
+[build]
+  publish = "build"
+  command = "npm run build:netlify"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_VERSION = "9"
+
+# Production environment variables
+[context.production.environment]
+  NODE_ENV = "production"
+  REACT_APP_NAME = "Coffee Meeting Platform"
+  REACT_APP_VERSION = "2.0.0"
+  REACT_APP_ENVIRONMENT = "production"
+  REACT_APP_DEBUG = "false"
+
+# Branch deploy (staging)
+[context.branch-deploy.environment]
+  NODE_ENV = "development"
+  REACT_APP_DEBUG = "true"
+
+# Deploy preview
+[context.deploy-preview.environment]
+  NODE_ENV = "development"
+  REACT_APP_DEBUG = "true"
+
+# Headers pour sécurité
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Cache assets
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
