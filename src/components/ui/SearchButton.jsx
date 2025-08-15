@@ -40,9 +40,12 @@ const SearchButton = () => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (containerRef.current && !containerRef.current.contains(event.target)) {
-        setIsOpen(false);
+        if (isMobile) {
+          setIsOpen(false);
+        }
         setSearchQuery('');
         setSearchResults([]);
+        setIsFocused(false);
       }
     };
 
@@ -101,6 +104,7 @@ const SearchButton = () => {
     setIsOpen(false);
     setSearchQuery('');
     setSearchResults([]);
+    setIsFocused(false);
   };
 
   const handleKeyDown = (e) => {
@@ -111,36 +115,64 @@ const SearchButton = () => {
 
   const handleFocus = () => {
     setIsFocused(true);
+    if (isMobile) {
+      setIsOpen(true);
+    }
   };
 
   const handleBlur = () => {
-    setIsFocused(false);
+    // Delay to allow clicking on search results
+    setTimeout(() => {
+      setIsFocused(false);
+      if (isMobile && !searchQuery.trim()) {
+        setIsOpen(false);
+      }
+    }, 200);
   };
 
   return (
-    <div className={`relative w-full transition-all duration-300 ${isFocused ? 'drop-shadow-lg' : ''}`} ref={containerRef}>
-      <div className="flex items-center w-full">
-        <div className="relative w-full">
-          <input
-            ref={inputRef}
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            placeholder={isMobile ? "Rechercher..." : "Rechercher campagnes, employés, commentaires..."}
-            className={`transition-all duration-300 w-[200px] sm:w-[280px] md:w-[320px] lg:w-[360px] max-w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 bg-gradient-to-r from-white to-[#FDF9F5] rounded-full border text-gray-600 placeholder-gray-400 focus:outline-none text-xs sm:text-sm ${
-              isFocused
-                ? 'border-[#E6C19A] ring-2 ring-[#F3E3CE]/60 shadow-[0_6px_24px_0_rgba(230,193,154,0.20)] scale-[1.01]'
-                : 'border-[#EED2B3] shadow-[0_3px_12px_0_rgba(238,210,179,0.15)] hover:shadow-[0_4px_16px_0_rgba(238,210,179,0.20)]'
-            } active:shadow-[0_2px_8px_0_rgba(238,210,179,0.25)] active:scale-[0.999]`}
-          />
-          <MagnifyingGlassIcon className={`absolute left-2 sm:left-3 top-1/2 transform -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 transition-all duration-200 ${
-            isFocused ? 'text-[#D2A26F] scale-105' : 'text-[#E6C19A]'
-          }`} />
-        </div>
-        {(searchQuery.trim() || isSearching) && (
+    <div className={`relative transition-all duration-300 ${isFocused ? 'drop-shadow-lg' : ''}`} ref={containerRef}>
+      <div className="flex items-center">
+        {/* Mobile: Collapsed Search Button */}
+        {isMobile && !isOpen ? (
+          <button
+            onClick={() => setIsOpen(true)}
+            className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-r from-white to-[#FDF9F5] border border-[#EED2B3] shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
+          >
+            <MagnifyingGlassIcon className="w-5 h-5 text-[#E6C19A]" />
+          </button>
+        ) : (
+          <div className="relative">
+            <input
+              ref={inputRef}
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              placeholder={isMobile ? "Rechercher..." : "Rechercher campagnes, employés, commentaires..."}
+              className={`transition-all duration-300 ${isMobile ? 'w-[200px]' : 'w-[200px] sm:w-[280px] md:w-[320px] lg:w-[360px]'} max-w-full pl-8 sm:pl-10 pr-8 sm:pr-10 py-2 sm:py-2.5 bg-gradient-to-r from-white to-[#FDF9F5] rounded-full border text-gray-600 placeholder-gray-400 focus:outline-none text-xs sm:text-sm ${
+                isFocused
+                  ? 'border-[#E6C19A] ring-2 ring-[#F3E3CE]/60 shadow-[0_6px_24px_0_rgba(230,193,154,0.20)] scale-[1.01]'
+                  : 'border-[#EED2B3] shadow-[0_3px_12px_0_rgba(238,210,179,0.15)] hover:shadow-[0_4px_16px_0_rgba(238,210,179,0.20)]'
+              } active:shadow-[0_2px_8px_0_rgba(238,210,179,0.25)] active:scale-[0.999]`}
+            />
+            <MagnifyingGlassIcon className={`absolute left-2 sm:left-3 top-1/2 transform -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 transition-all duration-200 ${
+              isFocused ? 'text-[#D2A26F] scale-105' : 'text-[#E6C19A]'
+            }`} />
+            {/* Close button for mobile */}
+            {isMobile && isOpen && (
+              <button
+                onClick={handleClose}
+                className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 w-6 h-6 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200"
+              >
+                <XMarkIcon className="w-4 h-4 text-gray-500" />
+              </button>
+            )}
+          </div>
+        )}
+        {(searchQuery.trim() || isSearching) && (isOpen || !isMobile) && (
           <div className="absolute top-full left-0 right-0 mt-2 bg-gradient-to-b from-white to-[#FDF9F5] rounded-xl shadow-[0_6px_24px_0_rgba(238,210,179,0.15)] border border-[#F3E3CE]/40 z-50 backdrop-blur-sm max-h-72 overflow-y-auto animate-in slide-in-from-top-2 fade-in duration-200">
             {isSearching ? (
               <div className="px-4 py-6 text-center">

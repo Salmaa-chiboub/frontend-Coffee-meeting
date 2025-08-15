@@ -198,6 +198,16 @@ code {
   transition: width 300ms ease-in-out, margin-left 300ms ease-in-out, transform 300ms ease-in-out;
 }
 
+/* Hide scrollbar for webkit browsers */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
 /* Responsive layout adjustments */
 @media (min-width: 1024px) {
   .main-content-responsive {

@@ -141,6 +141,14 @@ const NotificationButton = () => {
 
   return (
     <div className="relative">
+      {/* Mobile Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/20 z-40 sm:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
       {/* Notification Button */}
       <button
         onClick={handleToggleDropdown}
@@ -166,29 +174,29 @@ const NotificationButton = () => {
       {isOpen && (
         <div
           ref={dropdownRef}
-          className="absolute right-0 mt-3 w-96 bg-white/95 backdrop-blur-md rounded-xl shadow-2xl border border-[#E8C4A0]/30 z-50 animate-in slide-in-from-top-2 duration-200"
+          className="fixed sm:absolute top-14 sm:top-auto sm:right-0 sm:mt-2 left-1 right-1 sm:left-auto sm:w-80 bg-white/95 backdrop-blur-md rounded-lg shadow-xl border border-[#E8C4A0]/30 z-50 animate-in slide-in-from-top-2 duration-200"
         >
           {/* Header */}
-          <div className="px-4 py-3 border-b border-[#E8C4A0]/20 flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <BellIcon className="w-4 h-4 text-[#8B6F47]" />
-              <h3 className="text-sm font-semibold text-[#8B6F47]">Notifications</h3>
+          <div className="px-3 py-2.5 border-b border-[#E8C4A0]/20 flex items-center justify-between">
+            <div className="flex items-center space-x-2 min-w-0">
+              <BellIcon className="w-3.5 h-3.5 text-[#8B6F47]" />
+              <h3 className="text-xs font-semibold text-[#8B6F47]">Notifications</h3>
               {displayUnreadCount > 0 && (
-                <span className="px-2 py-0.5 bg-gradient-to-r from-peach-100 to-peach-200 text-peach-800 text-xs font-medium rounded-full">
-                  {displayUnreadCount} nouveau{displayUnreadCount > 1 ? 'x' : ''}
+                <span className="px-1.5 py-0.5 bg-peach-500 text-white text-xs font-medium rounded-full">
+                  {displayUnreadCount > 9 ? '9+' : displayUnreadCount}
                 </span>
               )}
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="p-1 hover:bg-[#E8C4A0]/10 rounded-lg transition-colors duration-200"
+              className="p-1 hover:bg-[#E8C4A0]/10 rounded-md transition-colors duration-200"
             >
-              <XMarkIcon className="w-4 h-4 text-[#8B6F47]/60 hover:text-[#8B6F47]" />
+              <XMarkIcon className="w-3.5 h-3.5 text-[#8B6F47]/60" />
             </button>
           </div>
 
           {/* Notifications List */}
-          <div className="max-h-80 overflow-y-auto">
+          <div className="max-h-48 sm:max-h-60 overflow-y-auto">
             {displayNotifications.length > 0 ? (
               displayNotifications.slice(0, 5).map((notification) => {
                 const IconComponent = getNotificationIcon(notification.type);
@@ -196,36 +204,36 @@ const NotificationButton = () => {
                   <div
                     key={notification.id}
                     onClick={() => handleNotificationClick(notification)}
-                    className={`px-4 py-3 border-b border-[#E8C4A0]/10 hover:bg-gradient-to-r hover:from-[#E8C4A0]/5 hover:to-cream/10 transition-all duration-200 cursor-pointer group ${
-                      !notification.is_read ? 'bg-gradient-to-r from-peach-50/30 to-cream/20' : ''
+                    className={`px-3 py-2.5 border-b border-[#E8C4A0]/10 hover:bg-[#E8C4A0]/5 transition-all duration-200 cursor-pointer group active:bg-[#E8C4A0]/10 ${
+                      !notification.is_read ? 'bg-peach-50/20' : ''
                     }`}
                   >
-                    <div className="flex items-start space-x-3">
+                    <div className="flex items-start space-x-2.5">
                       {/* Notification Icon */}
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center mt-0.5 transition-all duration-200 group-hover:scale-110 ${
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center mt-0.5 ${
                         notification.type === 'campaign'
-                          ? 'bg-[#E8C4A0]/20 text-[#8B6F47] border border-[#E8C4A0]/30'
+                          ? 'bg-[#E8C4A0]/20 text-[#8B6F47]'
                           : notification.type === 'evaluation'
-                          ? 'bg-peach-100/20 text-peach-700 border border-peach-200/30'
-                          : 'bg-warmGray-100/20 text-warmGray-700 border border-warmGray-200/30'
+                          ? 'bg-peach-100 text-peach-700'
+                          : 'bg-warmGray-100 text-warmGray-700'
                       }`}>
-                        <IconComponent className="w-4 h-4" />
+                        <IconComponent className="w-3 h-3" />
                       </div>
 
                       {/* Notification Content */}
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between">
-                          <p className="text-sm font-medium text-[#8B6F47] truncate group-hover:text-[#6B5537] transition-colors">
-                            {notification.title}
+                        <div className="flex items-start justify-between gap-1">
+                          <p className="text-xs font-medium text-[#8B6F47] leading-tight">
+                            {notification.title.length > 25 ? notification.title.substring(0, 25) + '...' : notification.title}
                           </p>
                           {!notification.is_read && (
-                            <div className="w-2 h-2 bg-gradient-to-r from-peach-500 to-peach-600 rounded-full ml-2 animate-pulse"></div>
+                            <div className="w-1.5 h-1.5 bg-peach-500 rounded-full flex-shrink-0 mt-1"></div>
                           )}
                         </div>
-                        <p className="text-xs text-warmGray-600 mt-1 line-clamp-2 group-hover:text-warmGray-700 transition-colors">
-                          {notification.message}
+                        <p className="text-xs text-warmGray-600 mt-0.5 line-clamp-2 leading-tight">
+                          {notification.message.length > 40 ? notification.message.substring(0, 40) + '...' : notification.message}
                         </p>
-                        <p className="text-xs text-warmGray-400 mt-1 group-hover:text-warmGray-500 transition-colors">
+                        <p className="text-xs text-warmGray-400 mt-1">
                           {formatTime(notification.created_at)}
                         </p>
                       </div>
@@ -234,33 +242,32 @@ const NotificationButton = () => {
                 );
               })
             ) : (
-              <div className="px-4 py-8 text-center">
-                <BellIcon className="w-8 h-8 text-[#E8C4A0]/40 mx-auto mb-2" />
-                <p className="text-sm text-warmGray-500">Aucune notification</p>
-                <p className="text-xs text-warmGray-400 mt-1">Vous êtes à jour !</p>
+              <div className="px-3 py-6 text-center">
+                <BellIcon className="w-6 h-6 text-[#E8C4A0]/40 mx-auto mb-2" />
+                <p className="text-xs text-warmGray-500">Aucune notification</p>
               </div>
             )}
           </div>
 
           {/* Footer */}
           {displayNotifications.length > 0 && (
-            <div className="px-4 py-3 border-t border-[#E8C4A0]/20 bg-gradient-to-r from-cream/20 to-[#E8C4A0]/5">
-              <div className="flex items-center justify-between space-x-2">
+            <div className="px-3 py-2 border-t border-[#E8C4A0]/20 bg-cream/10">
+              <div className="flex items-center gap-2">
                 {displayUnreadCount > 0 && (
                   <button
                     onClick={handleMarkAllAsRead}
-                    className="text-xs text-[#8B6F47]/70 hover:text-[#8B6F47] font-medium transition-colors duration-200 flex items-center space-x-1"
+                    className="text-xs text-[#8B6F47]/70 hover:text-[#8B6F47] font-medium transition-colors duration-200 flex items-center space-x-1 py-1.5 px-2 rounded-md hover:bg-[#E8C4A0]/10"
                     disabled={loading}
                   >
                     <CheckIcon className="w-3 h-3" />
-                    <span>Tout marquer comme lu</span>
+                    <span>Marquer tout</span>
                   </button>
                 )}
                 <button
                   onClick={handleViewAll}
-                  className="flex-1 text-sm text-[#8B6F47] hover:text-[#6B5537] font-medium transition-colors duration-200 text-center py-1 px-3 rounded-lg hover:bg-[#E8C4A0]/10"
+                  className="text-xs text-[#8B6F47] hover:text-[#6B5537] font-medium transition-colors duration-200 text-center py-1.5 px-2 rounded-md hover:bg-[#E8C4A0]/10 flex-1"
                 >
-                  Voir toutes les notifications
+                  Voir tout
                 </button>
               </div>
             </div>

@@ -8,12 +8,13 @@ import {
 import SearchButton from '../ui/SearchButton';
 import NotificationButton from '../ui/NotificationButton';
 
-const Header = ({ isHovered = false }) => {
+const Header = ({ isHovered = false, onToggleMobileSidebar }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   // const location = useLocation(); // unused after search removal
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
+
 
   const dropdownRef = useRef(null);
   const searchRef = useRef(null);
@@ -86,8 +87,19 @@ const Header = ({ isHovered = false }) => {
     >
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 py-2">
-          {/* Left side - Search */}
-          <div className="flex items-center">
+          {/* Left side - Mobile Menu Button + Search */}
+          <div className="flex items-center space-x-2">
+            {/* Mobile Menu Button */}
+            <button
+              onClick={onToggleMobileSidebar}
+              className="lg:hidden flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-[#E8C4A0] to-[#D4A574] shadow-lg border border-[#E8C4A0]/30 hover:from-[#D4A574] hover:to-[#C19660] transition-all duration-200 hover:scale-105 active:scale-95"
+              aria-label="Ouvrir le menu"
+            >
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+
             <SearchButton />
           </div>
 

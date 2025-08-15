@@ -11,15 +11,14 @@ import {
   BellIcon
 } from '@heroicons/react/24/outline';
 
-const Sidebar = ({ onHoverChange }) => {
+const Sidebar = ({ onHoverChange, isMobileOpen = false, onCloseMobile }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { logout } = useAuth();
 
+
   // State management - Default closed, opens on hover
-  // const [isExpanded, setIsExpanded] = useState(false); // unused
   const [isHovered, setIsHovered] = useState(false);
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   // Show expanded state when hovered or mobile is open
@@ -53,10 +52,16 @@ const Sidebar = ({ onHoverChange }) => {
     };
   }, []);
 
-  // Close mobile sidebar when route changes
+  // Close mobile sidebar when route changes (but not on initial render)
+  const prevPathnameRef = useRef(location.pathname);
+
   useEffect(() => {
-    setIsMobileOpen(false);
-  }, [location.pathname]);
+    // Only close if the pathname actually changed (not on initial render)
+    if (prevPathnameRef.current !== location.pathname && isMobileOpen && onCloseMobile) {
+      onCloseMobile();
+    }
+    prevPathnameRef.current = location.pathname;
+  }, [location.pathname, isMobileOpen, onCloseMobile]);
 
   // Handle logout
   const handleLogout = async () => {
@@ -174,39 +179,26 @@ const Sidebar = ({ onHoverChange }) => {
       className={`fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden transition-opacity duration-300 ${
         isMobileOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
       }`}
-      onClick={() => setIsMobileOpen(false)}
+      onClick={onCloseMobile}
     />
   );
 
-  // Mobile toggle button (3 lines menu for phone and tablet only)
-  const MobileToggle = () => (
-    <button
-      onClick={() => setIsMobileOpen(true)}
-      className="lg:hidden fixed top-20 left-4 z-20 bg-white rounded-xl p-2 shadow-lg border border-warmGray-200 hover:bg-warmGray-50 transition-all duration-200"
-    >
-      <svg className="w-6 h-6 text-warmGray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-    </button>
-  );
+  // Mobile toggle button is now in the Header component
 
   return (
     <>
-      {/* Mobile Toggle Button */}
-      <MobileToggle />
-
       {/* Mobile Overlay */}
       <MobileOverlay />
 
       {/* Modern Sidebar */}
       <div
         className={`fixed top-0 left-0 h-full bg-white z-50 transition-all duration-300 ease-in-out shadow-xl flex flex-col ${
-          // Mobile/Tablet: hidden by default, shows when toggle is clicked
+          // Mobile: Contrôle complet par isMobileOpen
           isMobileOpen
-            ? 'translate-x-0 w-72 lg:translate-x-0'
-            : '-translate-x-full lg:translate-x-0'
-        } ${
-          // Desktop: always visible, expands on hover
+            ? 'translate-x-0 w-80 sm:w-72'
+            : '-translate-x-full'
+        } lg:translate-x-0 ${
+          // Desktop: largeur basée sur le hover
           shouldShowExpanded ? 'lg:w-96' : 'lg:w-24'
         }`}
         onMouseEnter={handleMouseEnter}
@@ -240,14 +232,16 @@ const Sidebar = ({ onHoverChange }) => {
           )}
 
           {/* Mobile close button */}
-          <button
-            onClick={() => setIsMobileOpen(false)}
-            className="lg:hidden ml-auto flex items-center justify-center w-8 h-8 rounded-lg hover:bg-warmGray-100 transition-all duration-200"
-          >
-            <svg className="w-5 h-5 text-warmGray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+          {isMobileOpen && (
+            <button
+              onClick={onCloseMobile}
+              className="lg:hidden ml-auto flex items-center justify-center w-10 h-10 rounded-lg hover:bg-warmGray-100 transition-all duration-200 flex-shrink-0"
+            >
+              <svg className="w-6 h-6 text-warmGray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
         </div>
 
         {/* Navigation */}

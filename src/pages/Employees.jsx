@@ -187,7 +187,7 @@ const Employees = () => {
                 <ul className="text-xs text-gray-600 space-y-1">
                   <li>• User: {user ? `✅ ${user.email}` : '❌ Not logged in'}</li>
                   <li>• Access Token: {localStorage.getItem('access_token') ? '✅ Present' : '❌ Missing'}</li>
-                  <li>• Refresh Token: {localStorage.getItem('refresh_token') ? '✅ Present' : '❌ Missing'}</li>
+                  <li>• Refresh Token: {localStorage.getItem('refresh_token') ? '�� Present' : '❌ Missing'}</li>
                 </ul>
               </div>
 
@@ -219,32 +219,32 @@ const Employees = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto space-y-4">
+    <div className="max-w-7xl mx-auto space-y-3 sm:space-y-4 px-2 sm:px-4">
       {/* Compact Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-3 sm:mb-4">
         <div>
-          <h1 className="text-2xl font-bold text-warmGray-800">Employés</h1>
-          <p className="text-sm text-warmGray-600 mt-1">
-            {totalItems} employé{totalItems !== 1 ? 's' : ''} au total
+          <h1 className="text-xl sm:text-2xl font-bold text-warmGray-800">Employés</h1>
+          <p className="text-xs sm:text-sm text-warmGray-600 mt-1">
+            {totalItems} employé{totalItems !== 1 ? 's' : ''}
           </p>
         </div>
       </div>
 
       {/* Compact Search & Filter */}
-      <div className="bg-white/60 backdrop-blur-sm rounded-2xl shadow-sm border border-warmGray-200/50 p-6">
-        <div className="flex flex-col lg:flex-row gap-8 items-end">
+      <div className="bg-white/60 backdrop-blur-sm rounded-lg sm:rounded-2xl shadow-sm border border-warmGray-200/50 p-3 sm:p-6">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 lg:gap-8 items-stretch sm:items-end">
           {/* Compact Search Field */}
           <div className="relative flex-1">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <MagnifyingGlassIcon className="h-4 w-4 text-warmGray-400" />
+                <MagnifyingGlassIcon className="h-3 w-3 sm:h-4 sm:w-4 text-warmGray-400" />
               </div>
               <input
                 type="text"
-                placeholder="Rechercher des membres par nom ou email..."
+                placeholder="Rechercher..."
                 value={searchTerm}
                 onChange={handleSearchChange}
-                className="w-full pl-10 pr-3 py-2.5 bg-white/90 border-2 border-warmGray-300 rounded-xl text-warmGray-800 placeholder-warmGray-400 focus:outline-none focus:border-[#E8C4A0] focus:ring-2 focus:ring-[#E8C4A0]/20 transition-all duration-200 text-sm shadow-sm"
+                className="w-full pl-8 sm:pl-10 pr-3 py-2 sm:py-2.5 bg-white/90 border-2 border-warmGray-300 rounded-lg sm:rounded-xl text-warmGray-800 placeholder-warmGray-400 focus:outline-none focus:border-[#E8C4A0] focus:ring-2 focus:ring-[#E8C4A0]/20 transition-all duration-200 text-xs sm:text-sm shadow-sm"
               />
               {searchTerm && (
                 <button
@@ -263,25 +263,25 @@ const Employees = () => {
           <div className="hidden lg:block w-px h-8 bg-warmGray-200"></div>
 
           {/* Compact Campaign Filter */}
-          <div className="relative lg:w-64">
+          <div className="relative sm:w-48 lg:w-64">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FunnelIcon className="h-4 w-4 text-warmGray-400" />
+                <FunnelIcon className="h-3 w-3 sm:h-4 sm:w-4 text-warmGray-400" />
               </div>
               <select
                 value={selectedCampaign}
                 onChange={handleCampaignFilter}
-                className="w-full pl-10 pr-8 py-2.5 bg-white/90 border-2 border-warmGray-300 rounded-xl text-warmGray-800 focus:outline-none focus:border-[#E8C4A0] focus:ring-2 focus:ring-[#E8C4A0]/20 transition-all duration-200 appearance-none text-sm shadow-sm"
+                className="w-full pl-8 sm:pl-10 pr-8 py-2 sm:py-2.5 bg-white/90 border-2 border-warmGray-300 rounded-lg sm:rounded-xl text-warmGray-800 focus:outline-none focus:border-[#E8C4A0] focus:ring-2 focus:ring-[#E8C4A0]/20 transition-all duration-200 appearance-none text-xs sm:text-sm shadow-sm"
               >
-                <option value="">Choisir une Campagne</option>
+                <option value="">Campagne</option>
                 {campaigns.map(campaign => (
                   <option key={campaign.id} value={campaign.id}>
-                    {campaign.title}
+                    {campaign.title.length > 20 ? campaign.title.substring(0, 20) + '...' : campaign.title}
                   </option>
                 ))}
               </select>
               <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <svg className="h-4 w-4 text-warmGray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="h-3 w-3 sm:h-4 sm:w-4 text-warmGray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
@@ -290,8 +290,8 @@ const Employees = () => {
 
           {/* Inline Results Counter */}
           {(searchTerm || selectedCampaign) && (
-            <div className="lg:ml-4">
-              <div className="inline-flex items-center px-3 py-2 bg-gradient-to-r from-[#E8C4A0]/20 to-[#DDB892]/20 rounded-lg border border-[#E8C4A0]/30">
+            <div className="sm:ml-2 lg:ml-4">
+              <div className="inline-flex items-center px-2 sm:px-3 py-1.5 sm:py-2 bg-gradient-to-r from-[#E8C4A0]/20 to-[#DDB892]/20 rounded-lg border border-[#E8C4A0]/30">
                 <div className="w-1.5 h-1.5 bg-[#8B6F47] rounded-full mr-2 animate-pulse"></div>
                 <span className="text-xs text-[#8B6F47] font-semibold whitespace-nowrap">
                   {filteredEmployees.length} trouvé{filteredEmployees.length !== 1 ? 's' : ''}
@@ -303,31 +303,31 @@ const Employees = () => {
       </div>
 
       {/* Compact Employees Table */}
-      <div className="bg-white rounded-xl shadow-sm border border-warmGray-200 overflow-hidden">
+      <div className="bg-white rounded-lg sm:rounded-xl shadow-sm border border-warmGray-200 overflow-hidden">
         {isLoading ? (
-          <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#E8C4A0] border-t-transparent mx-auto mb-3"></div>
-            <div className="text-warmGray-600 text-sm">Chargement des employés...</div>
+          <div className="text-center py-8 sm:py-12">
+            <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-2 border-[#E8C4A0] border-t-transparent mx-auto mb-3"></div>
+            <div className="text-warmGray-600 text-xs sm:text-sm">Chargement...</div>
           </div>
         ) : paginatedEmployees.length === 0 ? (
-          <div className="text-center py-12">
-            <UserGroupIcon className="h-12 w-12 text-warmGray-400 mx-auto mb-3" />
-            <h3 className="text-lg font-medium text-warmGray-800 mb-1">
-              {searchTerm || selectedCampaign ? 'Aucun employé trouvé' : 'Aucune donnée d\'employé'}
+          <div className="text-center py-8 sm:py-12 px-4">
+            <UserGroupIcon className="h-10 w-10 sm:h-12 sm:w-12 text-warmGray-400 mx-auto mb-3" />
+            <h3 className="text-base sm:text-lg font-medium text-warmGray-800 mb-1">
+              {searchTerm || selectedCampaign ? 'Aucun employé trouvé' : 'Aucune donnée'}
             </h3>
-            <p className="text-warmGray-600 text-sm mb-4">
+            <p className="text-warmGray-600 text-xs sm:text-sm mb-4">
               {searchTerm || selectedCampaign
-                ? 'Essayez d\'ajuster vos critères de recherche ou de filtre'
-                : 'Les employés apparaîtront ici une fois qu\'ils seront importés dans les campagnes'
+                ? 'Ajustez vos critères de recherche'
+                : 'Les employés apparaîtront ici une fois importés'
               }
             </p>
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-md mx-auto">
-              <h4 className="text-sm font-medium text-blue-800 mb-2">Comment ajouter des employés :</h4>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 sm:p-4 max-w-sm sm:max-w-md mx-auto">
+              <h4 className="text-xs sm:text-sm font-medium text-blue-800 mb-2">Comment ajouter :</h4>
               <ol className="text-xs text-blue-700 space-y-1 text-left">
                 <li>1. Créer une campagne</li>
-                <li>2. Aller au workflow de campagne</li>
-                <li>3. Télécharger un fichier Excel avec les données des employés</li>
-                <li>4. Les employés apparaîtront ici automatiquement</li>
+                <li>2. Workflow de campagne</li>
+                <li>3. Upload fichier Excel</li>
+                <li>4. Employés ajoutés automatiquement</li>
               </ol>
             </div>
           </div>
@@ -337,13 +337,13 @@ const Employees = () => {
               {/* Compact Table Header */}
               <thead>
                 <tr className="bg-warmGray-50/50 border-b border-warmGray-200">
-                  <th className="text-left py-3 px-4 font-medium text-warmGray-600 text-xs uppercase tracking-wide">
+                  <th className="text-left py-2 sm:py-3 px-3 sm:px-4 font-medium text-warmGray-600 text-xs uppercase tracking-wide">
                     Membre
                   </th>
-                  <th className="text-left py-3 px-4 font-medium text-warmGray-600 text-xs uppercase tracking-wide">
+                  <th className="text-left py-2 sm:py-3 px-3 sm:px-4 font-medium text-warmGray-600 text-xs uppercase tracking-wide hidden sm:table-cell">
                     Email
                   </th>
-                  <th className="text-left py-3 px-4 font-medium text-warmGray-600 text-xs uppercase tracking-wide">
+                  <th className="text-left py-2 sm:py-3 px-3 sm:px-4 font-medium text-warmGray-600 text-xs uppercase tracking-wide hidden md:table-cell">
                     Date d'Arrivée
                   </th>
                 </tr>
@@ -357,16 +357,26 @@ const Employees = () => {
                     className="hover:bg-warmGray-50/50 transition-colors duration-150"
                   >
                     {/* Member */}
-                    <td className="py-3 px-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full overflow-hidden bg-gradient-to-br from-[#E8C4A0] to-[#DDB892] flex items-center justify-center flex-shrink-0">
-                          <UserIcon className="w-4 h-4 text-[#8B6F47]" />
+                    <td className="py-2 sm:py-3 px-3 sm:px-4">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full overflow-hidden bg-gradient-to-br from-[#E8C4A0] to-[#DDB892] flex items-center justify-center flex-shrink-0">
+                          <UserIcon className="w-3 h-3 sm:w-4 sm:h-4 text-[#8B6F47]" />
                         </div>
-                        <div className="min-w-0">
-                          <div className="font-medium text-warmGray-900 text-sm truncate">
+                        <div className="min-w-0 flex-1">
+                          <div className="font-medium text-warmGray-900 text-xs sm:text-sm truncate">
                             {employee.name || 'N/D'}
                           </div>
-                          <div className="flex items-center gap-2 mt-1">
+                          {/* Mobile: Show email and date below name */}
+                          <div className="sm:hidden mt-0.5">
+                            <div className="text-xs text-warmGray-600 truncate">
+                              {employee.email || 'N/D'}
+                            </div>
+                            <div className="text-xs text-warmGray-500">
+                              {formatDate(employee.arrival_date)}
+                            </div>
+                          </div>
+                          {/* Desktop: Show attributes and campaigns */}
+                          <div className="hidden sm:flex items-center gap-2 mt-1">
                             {Object.keys(employee.attributes_dict || {}).length > 0 && (
                               <span className="text-xs text-warmGray-500">
                                 +{Object.keys(employee.attributes_dict).length} attributs
@@ -380,15 +390,15 @@ const Employees = () => {
                       </div>
                     </td>
 
-                    {/* Email */}
-                    <td className="py-3 px-4">
+                    {/* Email - Hidden on mobile */}
+                    <td className="py-2 sm:py-3 px-3 sm:px-4 hidden sm:table-cell">
                       <span className="text-warmGray-700 text-sm">
                         {employee.email || 'N/D'}
                       </span>
                     </td>
 
-                    {/* Join Date */}
-                    <td className="py-3 px-4">
+                    {/* Join Date - Hidden on mobile and small tablets */}
+                    <td className="py-2 sm:py-3 px-3 sm:px-4 hidden md:table-cell">
                       <span className="text-warmGray-600 text-sm">
                         {formatDate(employee.arrival_date)}
                       </span>
@@ -404,7 +414,7 @@ const Employees = () => {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-4 sm:mt-6">
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

@@ -317,26 +317,26 @@ const CampaignWorkflow = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto space-y-4">
+    <div className="max-w-6xl mx-auto space-y-3 sm:space-y-4 px-2 sm:px-4">
       {/* Compact Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
+        <div className="flex items-center space-x-2 sm:space-x-4">
           <button
             onClick={handleBackToCampaigns}
-            className="flex items-center space-x-2 text-warmGray-600 hover:text-warmGray-800 transition-colors duration-200"
+            className="flex items-center space-x-1 sm:space-x-2 text-warmGray-600 hover:text-warmGray-800 transition-colors duration-200"
           >
-            <ArrowLeftIcon className="h-5 w-5" />
-            <span>Retour aux Campagnes</span>
+            <ArrowLeftIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+            <span className="text-sm sm:text-base">Retour</span>
           </button>
         </div>
 
         {/* Campaign Title in Header */}
         {campaign && (
-          <div className="text-right">
-            <h1 className="text-xl font-bold text-warmGray-800">
-              {campaign.title}
+          <div className="text-left sm:text-right">
+            <h1 className="text-lg sm:text-xl font-bold text-warmGray-800">
+              {campaign.title.length > 30 ? campaign.title.substring(0, 30) + '...' : campaign.title}
             </h1>
-            <div className="flex items-center space-x-4 text-xs text-warmGray-500 mt-0.5">
+            <div className="flex items-center space-x-2 sm:space-x-4 text-xs text-warmGray-500 mt-0.5">
               <span>{formatCampaignDate(campaign.start_date)}</span>
               <span>→</span>
               <span>{formatCampaignDate(campaign.end_date)}</span>
@@ -357,8 +357,8 @@ const CampaignWorkflow = () => {
 
       {/* Error Display */}
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-2xl p-4">
-          <p className="text-red-600 text-sm">{error}</p>
+        <div className="bg-red-50 border border-red-200 rounded-lg sm:rounded-2xl p-3 sm:p-4">
+          <p className="text-red-600 text-xs sm:text-sm">{error}</p>
         </div>
       )}
 
@@ -373,10 +373,11 @@ const CampaignWorkflow = () => {
           <button
             onClick={handlePreviousStep}
             disabled={currentStep <= 2}
-            className="flex items-center space-x-2 px-4 py-2 border border-warmGray-300 hover:border-warmGray-400 text-warmGray-600 hover:text-warmGray-800 text-sm rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 border border-warmGray-300 hover:border-warmGray-400 text-warmGray-600 hover:text-warmGray-800 text-xs sm:text-sm rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
-            <ArrowLeftIcon className="h-4 w-4" />
-            <span>Previous</span>
+            <ArrowLeftIcon className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Previous</span>
+            <span className="sm:hidden">Préc.</span>
           </button>
         </div>
       )}

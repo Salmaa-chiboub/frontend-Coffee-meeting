@@ -175,7 +175,7 @@ const Profile = () => {
 
       if (result.success) {
         updateUser(result.data);
-        setMessage({ type: 'success', text: 'Photo de profil supprimée avec succès !' });
+        setMessage({ type: 'success', text: 'Photo de profil supprim��e avec succès !' });
       } else {
         throw new Error(result.message || 'Échec de la suppression de la photo de profil');
       }
@@ -297,44 +297,44 @@ const Profile = () => {
   };
 
   return (
-    <div className="max-w-none mx-2 px-2 py-2">
+    <div className="max-w-none mx-2 px-2 py-2 sm:px-4 sm:py-4">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-warmGray-800">Profil</h1>
-        <p className="text-warmGray-600 mt-1">Gérez vos informations personnelles et paramètres</p>
+      <div className="mb-4 sm:mb-8">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-warmGray-800">Profil</h1>
+        <p className="text-sm sm:text-base text-warmGray-600 mt-1">Gérez vos informations et paramètres</p>
       </div>
 
       {/* Message Display */}
       {message.text && (
-        <div className={`mb-6 p-4 rounded-lg flex items-center space-x-3 ${
+        <div className={`mb-4 sm:mb-6 p-3 sm:p-4 rounded-lg flex items-start space-x-2 sm:space-x-3 ${
           message.type === 'success'
             ? 'bg-green-50 border border-green-200 text-green-800'
             : 'bg-red-50 border border-red-200 text-red-800'
         }`}>
           {message.type === 'success' ? (
-            <CheckCircleIcon className="h-5 w-5 flex-shrink-0" />
+            <CheckCircleIcon className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 mt-0.5" />
           ) : (
-            <ExclamationTriangleIcon className="h-5 w-5 flex-shrink-0" />
+            <ExclamationTriangleIcon className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 mt-0.5" />
           )}
-          <span>{message.text}</span>
+          <span className="text-sm sm:text-base">{message.text}</span>
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left Sidebar - Profile Picture (même hauteur) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8">
+        {/* Left Sidebar - Profile Picture */}
         <div className="lg:col-span-4">
-          <div className="bg-white rounded-2xl shadow-sm border border-warmGray-200 p-8 h-full">
+          <div className="bg-white rounded-lg sm:rounded-2xl shadow-sm border border-warmGray-200 p-4 sm:p-8 h-full">
             {/* Profile Picture */}
             <div className="flex flex-col items-center">
               {/* User Name and Role */}
-              <div className="text-center mb-6">
-                <h2 className="text-2xl font-bold text-warmGray-800 mb-1">{user?.name || 'User Name'}</h2>
-                <p className="text-peach-700 font-medium bg-peach-100 px-3 py-1 rounded-full inline-block">Responsable RH</p>
+              <div className="text-center mb-4 sm:mb-6">
+                <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-warmGray-800 mb-1">{user?.name || 'User Name'}</h2>
+                <p className="text-sm sm:text-base text-peach-700 font-medium bg-peach-100 px-2 sm:px-3 py-1 rounded-full inline-block">Responsable RH</p>
               </div>
 
               <div className="relative group">
-                {/* Main Profile Picture Circle - Augmenté */}
-                <div className="relative w-80 h-80 rounded-full overflow-hidden border-4 border-cream shadow-xl bg-warmGray-100">
+                {/* Main Profile Picture Circle - Responsive */}
+                <div className="relative w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 xl:w-80 xl:h-80 rounded-full overflow-hidden border-2 sm:border-4 border-cream shadow-xl bg-warmGray-100">
                   {user?.profile_picture_url ? (
                     <img
                       src={user.profile_picture_url}
@@ -349,39 +349,39 @@ const Profile = () => {
                   
                   {/* Fallback with initials */}
                   <div
-                    className={`flex items-center justify-center w-full h-full bg-gradient-to-br from-peach-200 to-peach-300 text-warmGray-700 font-bold text-4xl ${
+                    className={`flex items-center justify-center w-full h-full bg-gradient-to-br from-peach-200 to-peach-300 text-warmGray-700 font-bold text-xl sm:text-2xl lg:text-3xl xl:text-4xl ${
                       user?.profile_picture_url ? 'hidden' : 'flex'
                     }`}
                   >
                     {getUserInitials()}
                   </div>
-                  
+
                   {/* Loading Overlay */}
                   {isUploadingPicture && (
                     <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+                      <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-white"></div>
                     </div>
                   )}
 
                   {/* Hover Actions Overlay */}
                   <div className="absolute inset-0 rounded-full bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                    <div className="flex space-x-3">
+                    <div className="flex space-x-2 sm:space-x-3">
                       <button
                         onClick={() => fileInputRef.current?.click()}
                         disabled={isUploadingPicture}
-                        className="bg-white bg-opacity-90 hover:bg-opacity-100 text-warmGray-700 p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-105 disabled:opacity-50"
+                        className="bg-white bg-opacity-90 hover:bg-opacity-100 text-warmGray-700 p-2 sm:p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-105 disabled:opacity-50"
                         title="Changer la photo de profil"
                       >
-                        <CameraIcon className="w-5 h-5" />
+                        <CameraIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                       </button>
                       {user?.profile_picture_url && (
                         <button
                           onClick={handleProfilePictureDelete}
                           disabled={isUploadingPicture}
-                          className="bg-red-500 bg-opacity-90 hover:bg-opacity-100 text-white p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-105 disabled:opacity-50"
+                          className="bg-red-500 bg-opacity-90 hover:bg-opacity-100 text-white p-2 sm:p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-105 disabled:opacity-50"
                           title="Supprimer la photo de profil"
                         >
-                          <TrashIcon className="w-5 h-5" />
+                          <TrashIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                         </button>
                       )}
                     </div>
@@ -402,80 +402,83 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Right Content - User Information avec tabs (même hauteur) */}
+        {/* Right Content - User Information avec tabs */}
         <div className="lg:col-span-8">
-          <div className="bg-white rounded-2xl shadow-sm border border-warmGray-200 h-full flex flex-col">
+          <div className="bg-white rounded-lg sm:rounded-2xl shadow-sm border border-warmGray-200 h-full flex flex-col">
             {/* Tab Navigation */}
             <div className="border-b border-warmGray-200">
-              <nav className="flex space-x-8 px-6">
+              <nav className="flex space-x-4 sm:space-x-8 px-3 sm:px-6">
                 <button
                   onClick={() => setActiveTab('personal')}
-                  className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  className={`py-3 sm:py-4 px-1 border-b-2 font-medium text-xs sm:text-sm transition-colors ${
                     activeTab === 'personal'
                       ? 'border-[#E8C4A0] text-[#8B6F47]'
                       : 'border-transparent text-warmGray-500 hover:text-warmGray-700 hover:border-warmGray-300'
                   }`}
                 >
-                  <UserIcon className="w-5 h-5 inline mr-2" />
-                  Info Personnel
+                  <UserIcon className="w-4 h-4 sm:w-5 sm:h-5 inline mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">Info Personnel</span>
+                  <span className="sm:hidden">Info</span>
                 </button>
                 <button
                   onClick={() => setActiveTab('security')}
-                  className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  className={`py-3 sm:py-4 px-1 border-b-2 font-medium text-xs sm:text-sm transition-colors ${
                     activeTab === 'security'
                       ? 'border-[#E8C4A0] text-[#8B6F47]'
                       : 'border-transparent text-warmGray-500 hover:text-warmGray-700 hover:border-warmGray-300'
                   }`}
                 >
-                  <LockClosedIcon className="w-5 h-5 inline mr-2" />
+                  <LockClosedIcon className="w-4 h-4 sm:w-5 sm:h-5 inline mr-1 sm:mr-2" />
                   Sécurité
                 </button>
               </nav>
             </div>
 
             {/* Tab Content - Compact */}
-            <div className="p-6 flex-1 overflow-y-auto">
+            <div className="p-3 sm:p-6 flex-1 overflow-y-auto">
               {activeTab === 'personal' && (
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
 
                   {/* Full Name */}
                   <div className="group">
-                    <label className="block text-sm font-medium text-warmGray-700 mb-2">
-                      <UserIcon className="w-4 h-4 inline mr-2" />
+                    <label className="block text-xs sm:text-sm font-medium text-warmGray-700 mb-2">
+                      <UserIcon className="w-3 h-3 sm:w-4 sm:h-4 inline mr-1 sm:mr-2" />
                       Nom Complet
                     </label>
                     {isEditingName ? (
-                      <div className="flex items-center space-x-2">
+                      <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
                         <input
                           type="text"
                           value={editName}
                           onChange={(e) => setEditName(e.target.value)}
-                          className="flex-1 px-3 py-2 border border-warmGray-300 rounded-lg focus:ring-2 focus:ring-peach-500 focus:border-transparent transition-all duration-200"
+                          className="flex-1 px-3 py-2 border border-warmGray-300 rounded-lg focus:ring-2 focus:ring-peach-500 focus:border-transparent transition-all duration-200 text-sm"
                           placeholder="Entrez votre nom complet"
                           autoFocus
                           onKeyPress={(e) => e.key === 'Enter' && handleNameUpdate()}
                         />
-                        <button
-                          onClick={handleNameUpdate}
-                          className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg transition-colors"
-                          title="Enregistrer"
-                        >
-                          <CheckIcon className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => {
-                            setIsEditingName(false);
-                            setEditName(user?.name || '');
-                          }}
-                          className="bg-warmGray-500 hover:bg-warmGray-600 text-white p-2 rounded-lg transition-colors"
-                          title="Annuler"
-                        >
-                          <XMarkIcon className="w-4 h-4" />
-                        </button>
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={handleNameUpdate}
+                            className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg transition-colors"
+                            title="Enregistrer"
+                          >
+                            <CheckIcon className="w-3 h-3 sm:w-4 sm:h-4" />
+                          </button>
+                          <button
+                            onClick={() => {
+                              setIsEditingName(false);
+                              setEditName(user?.name || '');
+                            }}
+                            className="bg-warmGray-500 hover:bg-warmGray-600 text-white p-2 rounded-lg transition-colors"
+                            title="Annuler"
+                          >
+                            <XMarkIcon className="w-3 h-3 sm:w-4 sm:h-4" />
+                          </button>
+                        </div>
                       </div>
                     ) : (
                       <div className="flex items-center justify-between p-3 bg-warmGray-50 rounded-lg border border-warmGray-200 group-hover:bg-warmGray-100 transition-colors">
-                        <span className="text-warmGray-800 font-medium">
+                        <span className="text-sm sm:text-base text-warmGray-800 font-medium">
                           {user?.name || 'Aucun nom défini'}
                         </span>
                         <button
@@ -483,7 +486,7 @@ const Profile = () => {
                           className="opacity-0 group-hover:opacity-100 text-warmGray-500 hover:text-warmGray-700 transition-all duration-200"
                           title="Modifier le nom"
                         >
-                          <PencilIcon className="w-4 h-4" />
+                          <PencilIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                         </button>
                       </div>
                     )}
@@ -491,17 +494,17 @@ const Profile = () => {
 
                   {/* Email */}
                   <div>
-                    <label className="block text-sm font-medium text-warmGray-700 mb-2">
-                      <EnvelopeIcon className="w-4 h-4 inline mr-2" />
+                    <label className="block text-xs sm:text-sm font-medium text-warmGray-700 mb-2">
+                      <EnvelopeIcon className="w-3 h-3 sm:w-4 sm:h-4 inline mr-1 sm:mr-2" />
                       Adresse Email
                     </label>
                     <div className="p-3 bg-warmGray-50 rounded-lg border border-warmGray-200">
-                      <div className="flex items-center justify-between">
-                        <span className="text-warmGray-800 font-medium">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-2 sm:space-y-0">
+                        <span className="text-sm sm:text-base text-warmGray-800 font-medium break-all">
                           {user?.email || 'Aucun email défini'}
                         </span>
-                        <span className="text-xs text-warmGray-500 bg-warmGray-200 px-2 py-1 rounded-full">
-                          Ne peut pas être modifié
+                        <span className="text-xs text-warmGray-500 bg-warmGray-200 px-2 py-1 rounded-full flex-shrink-0">
+                          Non modifiable
                         </span>
                       </div>
                     </div>

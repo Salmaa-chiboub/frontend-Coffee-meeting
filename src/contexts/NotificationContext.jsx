@@ -217,13 +217,16 @@ export const NotificationProvider = ({ children }) => {
       if (result.success) {
         dispatch({ type: NOTIFICATION_ACTIONS.MARK_AS_READ, payload: notificationId });
         // Force refresh unread count to ensure badge updates immediately
-        await fetchUnreadCount(true);
+        const unreadResult = await notificationAPI.getUnreadCount(true);
+        if (unreadResult.success) {
+          dispatch({ type: NOTIFICATION_ACTIONS.SET_UNREAD_COUNT, payload: unreadResult.data.count });
+        }
       }
       return result.success;
     } catch (error) {
       return false;
     }
-  }, [canUseNotifications, fetchUnreadCount]);
+  }, [canUseNotifications]);
 
   // Mark notification as unread
   const markAsUnread = useCallback(async (notificationId) => {
@@ -235,13 +238,16 @@ export const NotificationProvider = ({ children }) => {
       if (result.success) {
         dispatch({ type: NOTIFICATION_ACTIONS.MARK_AS_UNREAD, payload: notificationId });
         // Force refresh unread count to ensure badge updates immediately
-        await fetchUnreadCount(true);
+        const unreadResult = await notificationAPI.getUnreadCount(true);
+        if (unreadResult.success) {
+          dispatch({ type: NOTIFICATION_ACTIONS.SET_UNREAD_COUNT, payload: unreadResult.data.count });
+        }
       }
       return result.success;
     } catch (error) {
       return false;
     }
-  }, [canUseNotifications, fetchUnreadCount]);
+  }, [canUseNotifications]);
 
   // Mark all notifications as read
   const markAllAsRead = useCallback(async () => {
@@ -255,14 +261,38 @@ export const NotificationProvider = ({ children }) => {
         dispatch({ type: NOTIFICATION_ACTIONS.MARK_ALL_AS_READ });
 
         // Force refresh from database to ensure consistency
-        await fetchNotifications({ forceRefresh: true });
-        await fetchUnreadCount(true);
+        const currentState = stateRef.current;
+        const params = {
+          page: currentState.pagination.page,
+          limit: currentState.pagination.limit
+        };
+
+        const notifResult = await notificationAPI.forceRefresh(params);
+        if (notifResult.success) {
+          dispatch({
+            type: NOTIFICATION_ACTIONS.SET_NOTIFICATIONS,
+            payload: {
+              notifications: notifResult.data.results,
+              unreadCount: notifResult.data.unread_count,
+              pagination: {
+                page: notifResult.data.page || 1,
+                total: notifResult.data.count || 0,
+                hasMore: notifResult.data.has_more || false
+              }
+            }
+          });
+        }
+
+        const unreadResult = await notificationAPI.getUnreadCount(true);
+        if (unreadResult.success) {
+          dispatch({ type: NOTIFICATION_ACTIONS.SET_UNREAD_COUNT, payload: unreadResult.data.count });
+        }
       }
       return result.success;
     } catch (error) {
       return false;
     }
-  }, [fetchNotifications, fetchUnreadCount, canUseNotifications]);
+  }, [canUseNotifications]);
 
   // Delete notification
   const deleteNotification = useCallback(async (notificationId) => {
@@ -273,26 +303,56 @@ export const NotificationProvider = ({ children }) => {
       const result = await notificationAPI.deleteNotification(notificationId);
       if (result.success) {
         dispatch({ type: NOTIFICATION_ACTIONS.REMOVE_NOTIFICATION, payload: notificationId });
-        await fetchUnreadCount(true);
+        const unreadResult = await notificationAPI.getUnreadCount(true);
+        if (unreadResult.success) {
+          dispatch({ type: NOTIFICATION_ACTIONS.SET_UNREAD_COUNT, payload: unreadResult.data.count });
+        }
       }
       return result.success;
     } catch (error) {
       return false;
     }
-  }, [canUseNotifications, fetchUnreadCount]);
+  }, [canUseNotifications]);
 
 
 
   // Load more notifications (pagination)
-  const loadMore = useCallback(() => {
+  const loadMore = useCallback(async () => {
     const currentState = stateRef.current;
-    if (currentState.pagination.hasMore && !currentState.loading) {
-      fetchNotifications({
-        page: currentState.pagination.page + 1,
-        append: true
-      });
+    if (currentState.pagination.hasMore && !currentState.loading && canUseNotifications) {
+      try {
+        dispatch({ type: NOTIFICATION_ACTIONS.SET_LOADING, payload: true });
+
+        const params = {
+          page: currentState.pagination.page + 1,
+          limit: currentState.pagination.limit
+        };
+
+        const result = await notificationAPI.getNotifications(params);
+
+        if (result.success) {
+          dispatch({
+            type: NOTIFICATION_ACTIONS.SET_NOTIFICATIONS,
+            payload: {
+              notifications: [...currentState.notifications, ...result.data.results],
+              unreadCount: result.data.unread_count,
+              pagination: {
+                page: result.data.page || 1,
+                total: result.data.count || 0,
+                hasMore: result.data.has_more || false
+              }
+            }
+          });
+        } else {
+          dispatch({ type: NOTIFICATION_ACTIONS.SET_ERROR, payload: result.error });
+        }
+      } catch (error) {
+        dispatch({ type: NOTIFICATION_ACTIONS.SET_ERROR, payload: error.message });
+      } finally {
+        dispatch({ type: NOTIFICATION_ACTIONS.SET_LOADING, payload: false });
+      }
     }
-  }, [fetchNotifications]);
+  }, [canUseNotifications]);
 
   // Add new notification (for real-time updates)
   const addNotification = useCallback((notification) => {
@@ -301,6 +361,8 @@ export const NotificationProvider = ({ children }) => {
 
   // Smart refresh - only refresh if data is stale
   const smartRefresh = useCallback(async () => {
+    if (!canUseNotifications) return;
+
     const currentState = stateRef.current;
     const now = Date.now();
     const lastFetchTime = currentState.lastFetch ? new Date(currentState.lastFetch).getTime() : 0;
@@ -308,10 +370,37 @@ export const NotificationProvider = ({ children }) => {
 
     // Only refresh if data is older than 30 seconds
     if (timeSinceLastFetch > 30000) {
-      await fetchNotifications({ forceRefresh: true });
-      await fetchUnreadCount(true);
+      try {
+        const params = {
+          page: currentState.pagination.page,
+          limit: currentState.pagination.limit
+        };
+
+        const notifResult = await notificationAPI.forceRefresh(params);
+        if (notifResult.success) {
+          dispatch({
+            type: NOTIFICATION_ACTIONS.SET_NOTIFICATIONS,
+            payload: {
+              notifications: notifResult.data.results,
+              unreadCount: notifResult.data.unread_count,
+              pagination: {
+                page: notifResult.data.page || 1,
+                total: notifResult.data.count || 0,
+                hasMore: notifResult.data.has_more || false
+              }
+            }
+          });
+        }
+
+        const unreadResult = await notificationAPI.getUnreadCount(true);
+        if (unreadResult.success) {
+          dispatch({ type: NOTIFICATION_ACTIONS.SET_UNREAD_COUNT, payload: unreadResult.data.count });
+        }
+      } catch (error) {
+        console.error('Smart refresh error:', error);
+      }
     }
-  }, [fetchNotifications, fetchUnreadCount]);
+  }, [canUseNotifications]);
 
   // Automatic polling for new notifications
   const startPolling = useCallback(() => {
@@ -328,20 +417,39 @@ export const NotificationProvider = ({ children }) => {
         try {
           // Only check unread count to minimize server load
           const currentUnreadCount = stateRef.current.unreadCount;
-          await fetchUnreadCount(true);
+
+          // Use the latest function references from stateRef
+          const result = await notificationAPI.getUnreadCount(true);
+          if (result.success) {
+            dispatch({ type: NOTIFICATION_ACTIONS.SET_UNREAD_COUNT, payload: result.data.count });
+          }
 
           // If unread count increased, also refresh notifications for dropdown
           const newUnreadCount = stateRef.current.unreadCount;
           if (newUnreadCount > currentUnreadCount) {
             // New notifications detected, refresh the first few for dropdown
-            await fetchNotifications({ limit: 5, forceRefresh: true });
+            const notifResult = await notificationAPI.forceRefresh({ limit: 5 });
+            if (notifResult.success) {
+              dispatch({
+                type: NOTIFICATION_ACTIONS.SET_NOTIFICATIONS,
+                payload: {
+                  notifications: notifResult.data.results,
+                  unreadCount: notifResult.data.unread_count,
+                  pagination: {
+                    page: notifResult.data.page || 1,
+                    total: notifResult.data.count || 0,
+                    hasMore: notifResult.data.has_more || false
+                  }
+                }
+              });
+            }
           }
         } catch (error) {
           console.error('Polling error:', error);
         }
       }
     }, 15000); // 15 seconds for more responsive updates
-  }, [isPollingActive, fetchUnreadCount, fetchNotifications, canUseNotifications]);
+  }, [isPollingActive, canUseNotifications]);
 
   const stopPolling = useCallback(() => {
     if (pollingIntervalRef.current) {
@@ -356,13 +464,31 @@ export const NotificationProvider = ({ children }) => {
       return;
     }
     try {
-      await fetchUnreadCount(true);
+      const unreadResult = await notificationAPI.getUnreadCount(true);
+      if (unreadResult.success) {
+        dispatch({ type: NOTIFICATION_ACTIONS.SET_UNREAD_COUNT, payload: unreadResult.data.count });
+      }
+
       // Also refresh notifications for dropdown
-      await fetchNotifications({ limit: 5, forceRefresh: true });
+      const notifResult = await notificationAPI.forceRefresh({ limit: 5 });
+      if (notifResult.success) {
+        dispatch({
+          type: NOTIFICATION_ACTIONS.SET_NOTIFICATIONS,
+          payload: {
+            notifications: notifResult.data.results,
+            unreadCount: notifResult.data.unread_count,
+            pagination: {
+              page: notifResult.data.page || 1,
+              total: notifResult.data.count || 0,
+              hasMore: notifResult.data.has_more || false
+            }
+          }
+        });
+      }
     } catch (error) {
       console.error('Immediate check error:', error);
     }
-  }, [fetchUnreadCount, fetchNotifications, canUseNotifications]);
+  }, [canUseNotifications]);
 
   // Start/stop polling based on active state
   useEffect(() => {
@@ -376,18 +502,25 @@ export const NotificationProvider = ({ children }) => {
     return () => {
       stopPolling();
     };
-  }, [canUseNotifications, isPollingActive, startPolling, stopPolling]);
+  }, [canUseNotifications, isPollingActive]);
 
   // Pause polling when page is not visible to save resources
   useEffect(() => {
-    const handleVisibilityChange = () => {
+    const handleVisibilityChange = async () => {
       if (document.hidden) {
         setIsPollingActive(false);
       } else {
         if (canUseNotifications) {
           setIsPollingActive(true);
           // Immediately check for new notifications when page becomes visible
-          fetchUnreadCount(true);
+          try {
+            const result = await notificationAPI.getUnreadCount(true);
+            if (result.success) {
+              dispatch({ type: NOTIFICATION_ACTIONS.SET_UNREAD_COUNT, payload: result.data.count });
+            }
+          } catch (error) {
+            console.error('Failed to fetch unread count on visibility change:', error);
+          }
         }
       }
     };
@@ -397,7 +530,7 @@ export const NotificationProvider = ({ children }) => {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [fetchUnreadCount, canUseNotifications]);
+  }, [canUseNotifications]);
 
   // Reset notifications when user logs out or auth is not ready
   useEffect(() => {

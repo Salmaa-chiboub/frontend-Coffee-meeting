@@ -46,19 +46,19 @@ const PairTableRow = React.memo(({ pair, index, onVisible }) => {
   if (!isVisible) {
     return (
       <tr ref={ref} className="animate-pulse">
-        <td className="px-2 sm:px-4 py-2 sm:py-3 text-sm border-b border-warmGray-200">
+        <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-sm border-b border-warmGray-200">
           <div className="h-4 bg-warmGray-200 rounded w-6"></div>
         </td>
-        <td className="px-2 sm:px-4 py-2 sm:py-3 text-sm border-b border-warmGray-200">
+        <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-sm border-b border-warmGray-200">
           <div className="h-4 bg-warmGray-200 rounded w-20"></div>
         </td>
-        <td className="hidden sm:table-cell px-2 sm:px-4 py-2 sm:py-3 text-sm border-b border-warmGray-200">
+        <td className="hidden sm:table-cell px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-sm border-b border-warmGray-200">
           <div className="h-4 bg-warmGray-200 rounded w-32"></div>
         </td>
-        <td className="px-2 sm:px-4 py-2 sm:py-3 text-sm border-b border-warmGray-200">
+        <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-sm border-b border-warmGray-200">
           <div className="h-4 bg-warmGray-200 rounded w-20"></div>
         </td>
-        <td className="hidden sm:table-cell px-2 sm:px-4 py-2 sm:py-3 text-sm border-b border-warmGray-200">
+        <td className="hidden sm:table-cell px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-sm border-b border-warmGray-200">
           <div className="h-4 bg-warmGray-200 rounded w-32"></div>
         </td>
       </tr>
@@ -82,39 +82,39 @@ const PairTableRow = React.memo(({ pair, index, onVisible }) => {
 
   return (
     <tr ref={ref} className="hover:bg-warmGray-50 transition-colors">
-      <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-medium text-warmGray-500 border-b border-warmGray-200">
+      <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-sm sm:text-base font-medium text-warmGray-500 border-b border-warmGray-200">
         {index + 1}
       </td>
-      <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm border-b border-warmGray-200">
+      <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-sm sm:text-base border-b border-warmGray-200">
         <div className="font-medium text-warmGray-900 truncate max-w-[120px] sm:max-w-none">
           {employee1Name}
         </div>
         {employee1?.department && (
-          <div className="text-xs text-warmGray-500 truncate hidden sm:block">
+          <div className="text-xs sm:text-sm text-warmGray-500 truncate hidden sm:block">
             {employee1.department}
           </div>
         )}
-        <div className="text-xs text-warmGray-600 sm:hidden truncate">
+        <div className="text-xs sm:text-sm text-warmGray-600 sm:hidden truncate">
           {employee1Email}
         </div>
       </td>
-      <td className="hidden sm:table-cell px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-warmGray-600 border-b border-warmGray-200 max-w-[200px] truncate">
+      <td className="hidden sm:table-cell px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-sm sm:text-base text-warmGray-600 border-b border-warmGray-200 max-w-[200px] truncate">
         {employee1Email}
       </td>
-      <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm border-b border-warmGray-200">
+      <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-sm sm:text-base border-b border-warmGray-200">
         <div className="font-medium text-warmGray-900 truncate max-w-[120px] sm:max-w-none">
           {employee2Name}
         </div>
         {employee2?.department && (
-          <div className="text-xs text-warmGray-500 truncate hidden sm:block">
+          <div className="text-xs sm:text-sm text-warmGray-500 truncate hidden sm:block">
             {employee2.department}
           </div>
         )}
-        <div className="text-xs text-warmGray-600 sm:hidden truncate">
+        <div className="text-xs sm:text-sm text-warmGray-600 sm:hidden truncate">
           {employee2Email}
         </div>
       </td>
-      <td className="hidden sm:table-cell px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-warmGray-600 border-b border-warmGray-200 max-w-[200px] truncate">
+      <td className="hidden sm:table-cell px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-sm sm:text-base text-warmGray-600 border-b border-warmGray-200 max-w-[200px] truncate">
         {employee2Email}
       </td>
     </tr>
@@ -245,10 +245,10 @@ const CampaignHistory = () => {
 
   if (loading) {
     return (
-      <div className="p-3 sm:p-6">
+      <div className="p-4 sm:p-6 lg:p-8">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-center py-8 sm:py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#8B6F47]"></div>
+          <div className="flex items-center justify-center py-12 sm:py-16 lg:py-20">
+            <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-[#8B6F47]"></div>
           </div>
         </div>
       </div>
@@ -257,13 +257,13 @@ const CampaignHistory = () => {
 
   if (error) {
     return (
-      <div className="p-3 sm:p-6">
+      <div className="p-4 sm:p-6 lg:p-8">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-red-50 border border-red-200 rounded-xl p-4 sm:p-6 text-center">
-            <p className="text-red-600 text-sm sm:text-base">{error}</p>
+          <div className="bg-red-50 border border-red-200 rounded-xl p-6 sm:p-8 lg:p-10 text-center">
+            <p className="text-red-600 text-base sm:text-lg lg:text-xl mb-4">{error}</p>
             <button
               onClick={handleBackToCampaigns}
-              className="mt-4 bg-[#E8C4A0] hover:bg-[#DDB892] text-[#8B6F47] font-medium py-2 px-4 rounded-lg transition-all duration-200 text-sm sm:text-base"
+              className="bg-[#E8C4A0] hover:bg-[#DDB892] text-[#8B6F47] font-medium py-3 px-6 sm:py-3 sm:px-8 lg:py-4 lg:px-10 rounded-lg transition-all duration-200 text-base sm:text-lg"
             >
               Retour aux Campagnes
             </button>
@@ -274,92 +274,92 @@ const CampaignHistory = () => {
   }
 
   return (
-    <div className="p-3 sm:p-6">
-      <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
+    <div className="p-4 sm:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8 lg:space-y-10">
         
-        {/* Compact Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 lg:gap-6">
           <button
             onClick={handleBackToCampaigns}
-            className="flex items-center space-x-2 text-warmGray-600 hover:text-warmGray-800 transition-colors duration-200 self-start"
+            className="flex items-center space-x-2 text-warmGray-600 hover:text-warmGray-800 transition-colors duration-200 self-start group"
           >
-            <ArrowLeftIcon className="h-4 w-4 sm:h-5 sm:w-5" />
-            <span className="text-sm sm:text-base">Retour aux Campagnes</span>
+            <ArrowLeftIcon className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7 group-hover:transform group-hover:-translate-x-1 transition-transform" />
+            <span className="text-base sm:text-lg lg:text-xl font-medium">Retour aux Campagnes</span>
           </button>
           
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
-            <div className="flex items-center space-x-2">
-              <DocumentTextIcon className="h-5 w-5 sm:h-6 sm:w-6 text-[#E8C4A0]" />
-              <span className="text-warmGray-800 font-medium text-sm sm:text-base">Historique de Campagne</span>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+            <div className="flex items-center space-x-3">
+              <DocumentTextIcon className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-[#E8C4A0]" />
+              <span className="text-warmGray-800 font-semibold text-lg sm:text-xl lg:text-2xl">Historique de Campagne</span>
             </div>
             <button
               onClick={() => navigate(`/app/campaigns/${campaignId}/evaluations`)}
-              className="bg-[#E8C4A0] hover:bg-[#DDB892] text-[#8B6F47] font-medium py-2 px-3 sm:px-4 rounded-lg transition-all duration-200 flex items-center space-x-2 text-sm sm:text-base"
+              className="bg-[#E8C4A0] hover:bg-[#DDB892] text-[#8B6F47] font-medium py-3 px-4 sm:px-6 lg:px-8 rounded-lg transition-all duration-200 flex items-center space-x-2 text-base sm:text-lg shadow-sm hover:shadow-md"
             >
-              <ChartBarIcon className="h-4 w-4" />
+              <ChartBarIcon className="h-5 w-5 sm:h-6 sm:w-6" />
               <span>Voir les Évaluations</span>
             </button>
           </div>
         </div>
 
-        {/* Compact Campaign Info Card */}
-        <div className="bg-white rounded-xl border border-warmGray-200 p-4 sm:p-6 shadow-md">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-            <h2 className="text-lg sm:text-xl font-semibold text-warmGray-900 truncate">
+        {/* Campaign Info Card */}
+        <div className="bg-white rounded-xl border border-warmGray-200 p-6 sm:p-8 lg:p-10 shadow-lg">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-warmGray-900 truncate">
               {campaign?.title || 'Campaign Details'}
             </h2>
-            <span className="inline-flex items-center px-2 sm:px-3 py-1 bg-green-100 text-green-800 text-xs sm:text-sm font-medium rounded-full self-start sm:self-auto">
-              <CheckIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+            <span className="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 text-sm sm:text-base lg:text-lg font-semibold rounded-full self-start sm:self-auto shadow-sm">
+              <CheckIcon className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 mr-2" />
               Terminée
             </span>
           </div>
           
           {campaign?.description && (
-            <p className="text-warmGray-600 mb-4 text-sm sm:text-base line-clamp-2">{campaign.description}</p>
+            <p className="text-warmGray-600 mb-6 text-base sm:text-lg lg:text-xl leading-relaxed line-clamp-3">{campaign.description}</p>
           )}
           
-          {/* Compact Statistics Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-            <div className="bg-warmGray-50 rounded-lg border border-warmGray-200 p-3 sm:p-4 text-center">
-              <CalendarIcon className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600 mx-auto mb-2" />
-              <p className="text-sm sm:text-lg font-bold text-warmGray-800 truncate">
+          {/* Statistics Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-blue-200 p-4 sm:p-6 lg:p-8 text-center hover:shadow-lg transition-shadow">
+              <CalendarIcon className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-blue-600 mx-auto mb-3" />
+              <p className="text-base sm:text-xl lg:text-2xl font-bold text-warmGray-800 break-words">
                 {campaignDates.start} - {campaignDates.end}
               </p>
-              <p className="text-xs sm:text-sm text-warmGray-600">Période de Campagne</p>
+              <p className="text-sm sm:text-base lg:text-lg text-warmGray-600 font-medium">Période de Campagne</p>
             </div>
             
-            <div className="bg-warmGray-50 rounded-lg border border-warmGray-200 p-3 sm:p-4 text-center">
-              <UserGroupIcon className="h-6 w-6 sm:h-8 sm:w-8 text-green-600 mx-auto mb-2" />
-              <p className="text-xl sm:text-2xl font-bold text-warmGray-800">
+            <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl border border-green-200 p-4 sm:p-6 lg:p-8 text-center hover:shadow-lg transition-shadow">
+              <UserGroupIcon className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-green-600 mx-auto mb-3" />
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-warmGray-800">
                 {workflowState?.step_data?.['2']?.employees_count || campaign?.employees_count || 0}
               </p>
-              <p className="text-xs sm:text-sm text-warmGray-600">Participants</p>
+              <p className="text-sm sm:text-base lg:text-lg text-warmGray-600 font-medium">Participants</p>
             </div>
             
-            <div className="bg-warmGray-50 rounded-lg border border-warmGray-200 p-3 sm:p-4 text-center">
-              <DocumentTextIcon className="h-6 w-6 sm:h-8 sm:w-8 text-purple-600 mx-auto mb-2" />
-              <p className="text-xl sm:text-2xl font-bold text-warmGray-800">
+            <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl border border-purple-200 p-4 sm:p-6 lg:p-8 text-center hover:shadow-lg transition-shadow">
+              <DocumentTextIcon className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-purple-600 mx-auto mb-3" />
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-warmGray-800">
                 {pairsData?.pairs_count || pairsData?.pairs?.length || 0}
               </p>
-              <p className="text-xs sm:text-sm text-warmGray-600">Paires Créées</p>
+              <p className="text-sm sm:text-base lg:text-lg text-warmGray-600 font-medium">Paires Créées</p>
             </div>
           </div>
         </div>
 
         {/* Lazy Loaded Workflow Progress */}
-        <Suspense fallback={<SectionSkeleton height="h-40" />}>
+        <Suspense fallback={<SectionSkeleton height="h-48 sm:h-56 lg:h-64" />}>
           <LazyWorkflowProgress workflowState={workflowState} completedSteps={completedSteps} />
         </Suspense>
 
-        {/* Compact Employee Pairs Table */}
+        {/* Employee Pairs Table */}
         {pairsData && pairsData.pairs && pairsData.pairs.length > 0 && (
-          <div className="bg-white rounded-xl border border-warmGray-200 shadow-md overflow-hidden">
-            <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-warmGray-200">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                <h3 className="text-base sm:text-lg font-semibold text-warmGray-900">
+          <div className="bg-white rounded-xl border border-warmGray-200 shadow-lg overflow-hidden">
+            <div className="px-6 sm:px-8 lg:px-10 py-4 sm:py-6 lg:py-8 border-b border-warmGray-200 bg-gradient-to-r from-warmGray-50 to-warmGray-100">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-warmGray-900">
                   Employee Pairs ({pairsData.pairs.length})
                 </h3>
-                <div className="text-xs sm:text-sm text-warmGray-500">
+                <div className="text-sm sm:text-base lg:text-lg text-warmGray-600 font-medium">
                   Showing {Math.min(visiblePairs, pairsData.pairs.length)} of {pairsData.pairs.length}
                 </div>
               </div>
@@ -369,19 +369,19 @@ const CampaignHistory = () => {
               <table className="min-w-full">
                 <thead className="bg-warmGray-50">
                   <tr>
-                    <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-warmGray-500 uppercase tracking-wider">
+                    <th className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium text-warmGray-500 uppercase tracking-wider">
                       #
                     </th>
-                    <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-warmGray-500 uppercase tracking-wider">
+                    <th className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium text-warmGray-500 uppercase tracking-wider">
                       Employee 1
                     </th>
-                    <th className="hidden sm:table-cell px-2 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-warmGray-500 uppercase tracking-wider">
+                    <th className="hidden sm:table-cell px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium text-warmGray-500 uppercase tracking-wider">
                       Email 1
                     </th>
-                    <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-warmGray-500 uppercase tracking-wider">
+                    <th className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium text-warmGray-500 uppercase tracking-wider">
                       Employee 2
                     </th>
-                    <th className="hidden sm:table-cell px-2 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-warmGray-500 uppercase tracking-wider">
+                    <th className="hidden sm:table-cell px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium text-warmGray-500 uppercase tracking-wider">
                       Email 2
                     </th>
                   </tr>
@@ -400,10 +400,10 @@ const CampaignHistory = () => {
             </div>
             
             {visiblePairs < pairsData.pairs.length && (
-              <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-warmGray-200 text-center">
+              <div className="px-6 sm:px-8 lg:px-10 py-4 sm:py-6 lg:py-8 border-t border-warmGray-200 text-center bg-warmGray-50">
                 <button
                   onClick={() => setVisiblePairs(prev => Math.min(prev + 8, pairsData.pairs.length))}
-                  className="bg-[#E8C4A0] hover:bg-[#DDB892] text-[#8B6F47] font-medium py-2 px-3 sm:px-4 rounded-lg transition-all duration-200 text-sm sm:text-base"
+                  className="bg-[#E8C4A0] hover:bg-[#DDB892] text-[#8B6F47] font-semibold py-3 px-6 sm:px-8 lg:px-10 rounded-lg transition-all duration-200 text-base sm:text-lg shadow-md hover:shadow-lg"
                 >
                   Load More ({pairsData.pairs.length - visiblePairs} remaining)
                 </button>

@@ -274,83 +274,85 @@ const Settings = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto px-2 sm:px-4">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mb-4 sm:mb-8">
         <div>
-          <h1 className="text-4xl font-bold text-warmGray-800">
-            Profil et Paramètres
+          <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-warmGray-800">
+            Paramètres
           </h1>
-          <p className="text-warmGray-600 mt-0.5">
-            Gérez les informations de votre compte et les paramètres de sécurité
+          <p className="text-sm sm:text-base text-warmGray-600 mt-0.5">
+            Gérez votre compte et sécurité
           </p>
         </div>
       </div>
 
       {/* Message Display */}
       {message.text && (
-        <div className={`mb-6 p-4 rounded-lg flex items-center space-x-3 ${
+        <div className={`mb-4 sm:mb-6 p-3 sm:p-4 rounded-lg flex items-start space-x-2 sm:space-x-3 ${
           message.type === 'success'
             ? 'bg-green-50 border border-green-200 text-green-800'
             : 'bg-red-50 border border-red-200 text-red-800'
         }`}>
           {message.type === 'success' ? (
-            <CheckCircleIcon className="h-5 w-5 flex-shrink-0" />
+            <CheckCircleIcon className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 mt-0.5" />
           ) : (
-            <ExclamationTriangleIcon className="h-5 w-5 flex-shrink-0" />
+            <ExclamationTriangleIcon className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 mt-0.5" />
           )}
-          <span>{message.text}</span>
+          <span className="text-sm sm:text-base">{message.text}</span>
         </div>
       )}
 
       {/* Tab Navigation */}
-      <div className="bg-white rounded-2xl shadow-lg mb-6">
+      <div className="bg-white rounded-lg sm:rounded-2xl shadow-lg mb-4 sm:mb-6">
         <div className="border-b border-warmGray-200">
-          <nav className="flex space-x-8 px-6">
+          <nav className="flex space-x-4 sm:space-x-8 px-3 sm:px-6 overflow-x-auto">
             <button
               onClick={() => setActiveTab('personal')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+              className={`py-3 sm:py-4 px-1 border-b-2 font-medium text-xs sm:text-sm transition-colors whitespace-nowrap ${
                 activeTab === 'personal'
                   ? 'border-[#E8C4A0] text-[#8B6F47]'
                   : 'border-transparent text-warmGray-500 hover:text-warmGray-700 hover:border-warmGray-300'
               }`}
             >
-              <UserIcon className="w-5 h-5 inline mr-2" />
-              Informations Personnelles
+              <UserIcon className="w-4 h-4 sm:w-5 sm:h-5 inline mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Informations Personnelles</span>
+              <span className="sm:hidden">Personnel</span>
             </button>
             <button
               onClick={() => setActiveTab('security')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+              className={`py-3 sm:py-4 px-1 border-b-2 font-medium text-xs sm:text-sm transition-colors whitespace-nowrap ${
                 activeTab === 'security'
                   ? 'border-[#E8C4A0] text-[#8B6F47]'
                   : 'border-transparent text-warmGray-500 hover:text-warmGray-700 hover:border-warmGray-300'
               }`}
             >
-              <LockClosedIcon className="w-5 h-5 inline mr-2" />
-              Paramètres de Sécurité
+              <LockClosedIcon className="w-4 h-4 sm:w-5 sm:h-5 inline mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Paramètres de Sécurité</span>
+              <span className="sm:hidden">Sécurité</span>
             </button>
           </nav>
         </div>
 
         {/* Tab Content */}
-        <div className="p-6">
+        <div className="p-3 sm:p-6">
           {activeTab === 'personal' && (
             <div>
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-warmGray-800">Informations Personnelles</h2>
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 space-y-2 sm:space-y-0">
+                <h2 className="text-lg sm:text-xl font-bold text-warmGray-800">Informations Personnelles</h2>
                 {!isEditing && (
                   <button
                     onClick={() => setIsEditing(true)}
-                    className="flex items-center space-x-1.5 bg-[#E8C4A0] hover:bg-[#DDB892] text-[#8B6F47] font-medium py-1.5 px-3 rounded-md transition-all duration-200 text-sm shadow-sm hover:shadow-md"
+                    className="flex items-center justify-center sm:justify-start space-x-1.5 bg-[#E8C4A0] hover:bg-[#DDB892] text-[#8B6F47] font-medium py-2 sm:py-1.5 px-3 rounded-md transition-all duration-200 text-sm shadow-sm hover:shadow-md"
                   >
                     <PencilIcon className="w-3.5 h-3.5" />
-                    <span>Modifier le Profil</span>
+                    <span>Modifier</span>
                   </button>
                 )}
               </div>
 
               {/* Profile Picture Upload Section */}
-              <div className="mb-8 p-6 bg-cream rounded-xl border border-warmGray-200">
+              <div className="mb-6 sm:mb-8 p-4 sm:p-6 bg-cream rounded-lg sm:rounded-xl border border-warmGray-200">
                 <ProfilePictureUpload
                   currentPicture={user?.profile_picture_url}
                   onUpload={handleProfilePictureUpload}
@@ -360,8 +362,8 @@ const Settings = () => {
               </div>
 
               {isEditing ? (
-                <form onSubmit={handleProfileUpdate} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <form onSubmit={handleProfileUpdate} className="space-y-4 sm:space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                     <div className="relative">
                       <input
                         type="text"
@@ -369,14 +371,14 @@ const Settings = () => {
                         value={profileForm.name}
                         onChange={handleProfileChange}
                         required
-                        className="w-full pl-12 pr-4 py-4 bg-transparent border-2 border-warmGray-400 rounded-full text-warmGray-800 placeholder-warmGray-400 focus:outline-none focus:border-warmGray-600 transition-all duration-200"
-                        placeholder="Entrez votre nom complet"
+                        className="w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-4 bg-transparent border-2 border-warmGray-400 rounded-lg sm:rounded-full text-warmGray-800 placeholder-warmGray-400 focus:outline-none focus:border-warmGray-600 transition-all duration-200 text-sm sm:text-base"
+                        placeholder="Nom complet"
                       />
-                      <label className="absolute -top-3 left-6 bg-cream px-2 text-sm font-medium text-warmGray-600">
+                      <label className="absolute -top-2.5 sm:-top-3 left-4 sm:left-6 bg-cream px-2 text-xs sm:text-sm font-medium text-warmGray-600">
                         Nom Complet *
                       </label>
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <UserIcon className="h-5 w-5 text-warmGray-400" />
+                        <UserIcon className="h-4 w-4 sm:h-5 sm:w-5 text-warmGray-400" />
                       </div>
                     </div>
                     <div className="relative">
@@ -385,41 +387,41 @@ const Settings = () => {
                         name="email"
                         value={profileForm.email}
                         disabled
-                        className="w-full pl-12 pr-4 py-4 bg-warmGray-100 border-2 border-warmGray-300 rounded-full text-warmGray-500 placeholder-warmGray-400 cursor-not-allowed"
-                        placeholder="L'email ne peut pas être modifié"
+                        className="w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-4 bg-warmGray-100 border-2 border-warmGray-300 rounded-lg sm:rounded-full text-warmGray-500 placeholder-warmGray-400 cursor-not-allowed text-sm sm:text-base"
+                        placeholder="Non modifiable"
                       />
-                      <label className="absolute -top-3 left-6 bg-cream px-2 text-sm font-medium text-warmGray-500">
+                      <label className="absolute -top-2.5 sm:-top-3 left-4 sm:left-6 bg-cream px-2 text-xs sm:text-sm font-medium text-warmGray-500">
                         Adresse Email
                       </label>
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg className="h-5 w-5 text-warmGray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="h-4 w-4 sm:h-5 sm:w-5 text-warmGray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                         </svg>
                       </div>
-                      <p className="text-xs text-warmGray-500 mt-0.5 ml-6">L'adresse email ne peut pas être modifiée pour des raisons de sécurité</p>
+                      <p className="text-xs text-warmGray-500 mt-1 ml-4 sm:ml-6">Non modifiable pour des raisons de sécurité</p>
                     </div>
-                    <div className="md:col-span-2 xl:col-span-1 relative">
+                    <div className="sm:col-span-2 xl:col-span-1 relative">
                       <input
                         type="text"
                         name="company_name"
                         value={profileForm.company_name}
                         onChange={handleProfileChange}
                         required
-                        className="w-full pl-12 pr-4 py-4 bg-transparent border-2 border-warmGray-400 rounded-full text-warmGray-800 placeholder-warmGray-400 focus:outline-none focus:border-warmGray-600 transition-all duration-200"
-                        placeholder="Entrez le nom de votre entreprise"
+                        className="w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-4 bg-transparent border-2 border-warmGray-400 rounded-lg sm:rounded-full text-warmGray-800 placeholder-warmGray-400 focus:outline-none focus:border-warmGray-600 transition-all duration-200 text-sm sm:text-base"
+                        placeholder="Nom de l'entreprise"
                       />
-                      <label className="absolute -top-3 left-6 bg-cream px-2 text-sm font-medium text-warmGray-600">
+                      <label className="absolute -top-2.5 sm:-top-3 left-4 sm:left-6 bg-cream px-2 text-xs sm:text-sm font-medium text-warmGray-600">
                         Nom de l'Entreprise *
                       </label>
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg className="h-5 w-5 text-warmGray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="h-4 w-4 sm:h-5 sm:w-5 text-warmGray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                         </svg>
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex space-x-3">
+                  <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
                     <button
                       type="submit"
                       disabled={isLoading}
@@ -428,10 +430,14 @@ const Settings = () => {
                       {isLoading ? (
                         <div className="flex items-center justify-center">
                           <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#8B6F47] mr-2"></div>
-                          Enregistrement...
+                          <span className="hidden sm:inline">Enregistrement...</span>
+                          <span className="sm:hidden">Enregistrement...</span>
                         </div>
                       ) : (
-                        'Enregistrer les Modifications'
+                        <>
+                          <span className="hidden sm:inline">Enregistrer les Modifications</span>
+                          <span className="sm:hidden">Enregistrer</span>
+                        </>
                       )}
                     </button>
                     <button

@@ -235,104 +235,104 @@ const CampaignsList = React.memo(() => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto space-y-3">
+    <div className="max-w-7xl mx-auto space-y-2 sm:space-y-3 px-2 sm:px-4">
       {/* Title, description and Add Campaign button */}
-      <div className="flex items-start justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-warmGray-800">
-            Campagnes de Rencontres Café
+      <div className="flex flex-col space-y-3 sm:flex-row sm:items-start sm:justify-between sm:space-y-0 mb-4 sm:mb-8">
+        <div className="min-w-0">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-warmGray-800">
+            Campagnes
           </h1>
-          <p className="text-warmGray-600 mt-0.5">
-            Gérez vos campagnes de rencontres café et suivez la participation des employés
+          <p className="text-sm sm:text-base text-warmGray-600 mt-0.5">
+            Gérez vos campagnes et suivez la participation
           </p>
         </div>
 
         {/* Add Campaign Button */}
-        <button
-          onClick={handleCreateCampaign}
-          className="bg-[#E8C4A0] hover:bg-[#DDB892] text-[#8B6F47] font-medium py-4 px-6 rounded-full transition-all duration-200 transform hover:scale-[1.02] flex items-center space-x-2"
-        >
-          <PlusIcon className="h-5 w-5" />
-          <span>Ajouter une Campagne</span>
-        </button>
+        <div className="flex-shrink-0">
+          <button
+            onClick={handleCreateCampaign}
+            className="bg-[#E8C4A0] hover:bg-[#DDB892] text-[#8B6F47] font-medium py-2 px-4 sm:py-4 sm:px-6 rounded-full transition-all duration-200 transform hover:scale-[1.02] flex items-center space-x-2 text-sm sm:text-base"
+          >
+            <PlusIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+            <span className="hidden sm:inline">Ajouter une Campagne</span>
+            <span className="sm:hidden">Nouvelle</span>
+          </button>
+        </div>
       </div>
 
       {/* Campaign listing card */}
-      <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6">
+      <div className="bg-white/80 backdrop-blur-sm rounded-lg sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-3 sm:p-6">
         {/* Search and filters with Add Campaign button */}
-        <div className="flex items-center justify-between mb-6">
-          {/* Search bar on the left */}
-          <div className="flex-1 max-w-sm">
+        <div className="flex flex-col space-y-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0 mb-4 sm:mb-6">
+          {/* Search bar */}
+          <div className="flex-1 max-w-full sm:max-w-sm">
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <MagnifyingGlassIcon className="h-4 w-4 text-warmGray-400" />
+              <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+                <MagnifyingGlassIcon className="h-3 w-3 sm:h-4 sm:w-4 text-warmGray-400" />
               </div>
               <input
                 type="text"
-                placeholder="Rechercher des campagnes..."
+                placeholder="Rechercher..."
                 value={searchTerm}
                 onChange={handleSearchChange}
-                className="w-full pl-12 pr-4 py-2 bg-transparent border-2 border-warmGray-400 rounded-full text-warmGray-800 placeholder-warmGray-400 focus:outline-none focus:border-warmGray-600 transition-all duration-200 text-sm"
+                className="w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-2 bg-transparent border-2 border-warmGray-400 rounded-full text-warmGray-800 placeholder-warmGray-400 focus:outline-none focus:border-warmGray-600 transition-all duration-200 text-xs sm:text-sm"
               />
-              <label className="absolute -top-3 left-6 bg-white px-2 text-sm font-medium text-warmGray-600">
-                Rechercher des Campagnes
+              <label className="absolute -top-2.5 left-3 sm:left-4 bg-white px-2 text-xs font-medium text-warmGray-600">
+                Recherche
               </label>
             </div>
           </div>
 
-          {/* Status Filter and Performance controls */}
-          <div className="ml-4 flex items-center gap-4">
-            {/* Status Filter */}
-            <div className="min-w-[160px]">
+          {/* Status Filter */}
+          <div className="flex items-center gap-2">
+            <div className="min-w-0 flex-1 sm:min-w-[140px] sm:flex-none">
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="w-full py-2 px-4 border-2 border-warmGray-400 rounded-full focus:outline-none focus:border-warmGray-600 transition-all duration-200 bg-white text-warmGray-700 text-sm"
+                className="w-full py-2 px-3 sm:px-4 border-2 border-warmGray-400 rounded-full focus:outline-none focus:border-warmGray-600 transition-all duration-200 bg-white text-warmGray-700 text-xs sm:text-sm"
               >
-                <option value="all">Toutes les Campagnes</option>
+                <option value="all">Toutes</option>
                 <option value="completed">Terminées</option>
                 <option value="incomplete">En Cours</option>
               </select>
             </div>
-
-
           </div>
         </div>
 
         {paginatedCampaigns.length === 0 ? (
-          <div className="text-center py-12">
+          <div className="text-center py-8 sm:py-12">
             {campaignsWithStatus.length === 0 ? (
               <div>
-                <div className="w-16 h-16 bg-[#E8C4A0] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <PlusIcon className="h-8 w-8 text-[#8B6F47]" />
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-[#E8C4A0] rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                  <PlusIcon className="h-6 w-6 sm:h-8 sm:w-8 text-[#8B6F47]" />
                 </div>
-                <h3 className="text-xl font-semibold text-warmGray-800 mb-2">
-                  Aucune campagne pour le moment
+                <h3 className="text-lg sm:text-xl font-semibold text-warmGray-800 mb-2">
+                  Aucune campagne
                 </h3>
-                <p className="text-warmGray-600 mb-6">
-                  Créez votre première campagne de rencontres café pour commencer
+                <p className="text-sm sm:text-base text-warmGray-600 mb-4 sm:mb-6">
+                  Créez votre première campagne pour commencer
                 </p>
                 <button
                   onClick={handleCreateCampaign}
-                  className="bg-[#E8C4A0] hover:bg-[#DDB892] text-[#8B6F47] font-medium py-3 px-6 rounded-full transition-all duration-200 transform hover:scale-[1.02]"
+                  className="bg-[#E8C4A0] hover:bg-[#DDB892] text-[#8B6F47] font-medium py-2 px-4 sm:py-3 sm:px-6 rounded-full transition-all duration-200 transform hover:scale-[1.02] text-sm sm:text-base"
                 >
-                  Créer la Première Campagne
+                  Créer une Campagne
                 </button>
               </div>
             ) : (
               <div>
-                <MagnifyingGlassIcon className="h-16 w-16 text-warmGray-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-warmGray-800 mb-2">
+                <MagnifyingGlassIcon className="h-12 w-12 sm:h-16 sm:w-16 text-warmGray-400 mx-auto mb-3 sm:mb-4" />
+                <h3 className="text-lg sm:text-xl font-semibold text-warmGray-800 mb-2">
                   Aucune campagne trouvée
                 </h3>
-                <p className="text-warmGray-600">
+                <p className="text-sm sm:text-base text-warmGray-600">
                   Essayez d'ajuster vos termes de recherche
                 </p>
               </div>
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
             {paginatedCampaigns.map((campaign) => (
               <CampaignCard
                 key={campaign.id}
@@ -346,7 +346,7 @@ const CampaignsList = React.memo(() => {
 
         {/* Pagination côté client - affichée si nécessaire */}
         {totalPages > 1 && (
-          <div className="mt-8">
+          <div className="mt-4 sm:mt-8">
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}

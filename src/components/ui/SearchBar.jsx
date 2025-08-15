@@ -25,10 +25,10 @@ const SearchBar = ({
 
   // Call onChange with debounced value
   useEffect(() => {
-    if (onChange && debouncedValue !== value) {
-      onChange(debouncedValue);
+    if (debouncedValue !== value) {
+      onChange?.(debouncedValue);
     }
-  }, [debouncedValue, onChange, value]);
+  }, [debouncedValue, value]);
 
   const handleInputChange = (e) => {
     setLocalValue(e.target.value);
